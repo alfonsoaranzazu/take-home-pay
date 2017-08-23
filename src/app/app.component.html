@@ -6,11 +6,12 @@
         <label for="salary">Salary</label>
         <input type="text" class="form-control" id="name" [(ngModel)]="model.salary" name="salary" #name="ngModel" required>
       </div>
- 
+
       <div class="form-group">
         <label for="status">Status</label>
         <select class="form-control" id="status" name="status" [(ngModel)]="model.status" required>
           <option>Single</option>
+          <option>Married</option>
           <option>Head of Household</option>
         </select>
       </div>
@@ -18,6 +19,7 @@
       <div class="form-group">
         <label for="dependents">Dependents</label>
         <select class="form-control" id="dependents" name="dependents" [(ngModel)]="model.dependents" required>
+          <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -31,11 +33,11 @@
         <label for="deduction">Monthly Deduction</label>
         <input type="text" class="form-control" id="deduction" name="deduction" [(ngModel)]="model.deduction" #name="ngModel" required>
       </div>
- 
+
       <button type="submit" class="btn btn-success" [disabled]="!calculatorForm.form.valid">Submit</button>
     </form>
   </div>
- 
+
   <!-- <div [hidden]="!submitted"> -->
   <div>
     <h2>Results</h2>
@@ -45,7 +47,7 @@
           <th></th>
           <th>Yearly</th>
           <th>Monthly</th>
-          <th>Two Weekly</th>
+          <th>Bi-Weekly</th>
           <th>Weekly</th>
       </tr>
       </thead>
@@ -56,8 +58,8 @@
            <td>$ {{takeHomePay.monthly}}</td>
            <td>$ {{takeHomePay.biweekly}}</td>
            <td>$ {{takeHomePay.weekly}}</td>
-         </tr> 
-      </tbody>  
+         </tr>
+      </tbody>
     </table>
   </div>
 </div>
