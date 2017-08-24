@@ -1,7 +1,7 @@
 <div class="container">
   <div>
     <h1>Calculator</h1>
-    <form (ngSubmit)="onSubmit()" #calculatorForm="ngForm">
+    <form #calculatorForm="ngForm">
       <div class="form-group">
         <label for="salary">Salary</label>
         <input type="text" class="form-control" id="name" [(ngModel)]="model.salary" name="salary" #name="ngModel" required>
@@ -34,7 +34,14 @@
         <input type="text" class="form-control" id="deduction" name="deduction" [(ngModel)]="model.deduction" #name="ngModel" required>
       </div>
 
-      <button type="submit" class="btn btn-success" [disabled]="!calculatorForm.form.valid">Submit</button>
+      <div class="form-group">
+        <label for="state">State</label>
+        <select class="form-control" id="state" name="state" [(ngModel)]="model.state" required>
+          <option>None</option>
+          <option>CA</option>
+        </select>
+      </div>
+
     </form>
   </div>
 

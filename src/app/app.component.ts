@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, DoCheck } from '@angular/core';
+import {filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates} from '../config';
 
 @Component({
   selector: 'app-root',
@@ -6,11 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public model: any = {
-    status: "Single",
+  @Input() model = {
+    salary: 0,
+    status: 'Single',
     dependents: 0,
-    deduction: "0"
+    deduction: 0,
+    state: 'None'
   };
+
   public takeHomePay = {
       yearly: 0,
       monthly: 0,
@@ -19,32 +23,40 @@ export class AppComponent {
   };
 
   public standardDeduction = {
-    single: 10400,
-    married: 20800,
-    head: 13400,
-    dependent: 4050
+    single: filingStatus.single,
+    married: filingStatus.married,
+    head: filingStatus.head,
+    dependent: filingStatus.dependent
   };
 
+  // TODO: enums
   public frequencies = {
     yearly: 1,
     monthly: 12,
     biweekly: 26,
     weekly: 52
+  };
+
+  public totalFederalTax = 0;
+  public totalStateTax = 0;
+  public fica = taxRates.socialSecurity + taxRates.medicare;
+  public postSalary;
+
+  // gets called every time user inputs new values
+  ngDoCheck() {
+    this.totalFederalTax = 0;
+    this.totalStateTax = 0;
+    this.preTaxDeduction();
+    let statusDeductions = this.calcDeductions(this.model.status);
+    this.federalIncomeTaxRate(statusDeductions);
+    if (this.model.state === 'CA') {
+      this.stateIncomeTaxRate(statusDeductions);
+    }
+    this.payFrequency(this.totalFederalTax + this.totalStateTax, this.ficaDeduction(this.postSalary));
   }
 
-  public totalTax = 0;
-  // social security at 6.2% in 2017
-  public socialSecurity = .062;
-  // medicare at 1.45% in 2017
-  public medicare = .0145;
-  public fica = this.socialSecurity + this.medicare;
-
-  public submitted = false;
-
-  onSubmit() {
-    this.submitted = true;
-    this.federalIncomeTaxRate(this.calcDeductions(this.model.status));
-    this.payFrequency(this.totalTax, this.ficaDeduction(this.model.salary));
+  preTaxDeduction() {
+    this.postSalary = this.model.salary - (this.model.deduction*12);
   }
 
   // deduct correct filing status from income
@@ -53,89 +65,100 @@ export class AppComponent {
     const dependents = this.model.dependents * this.standardDeduction.dependent;
 
     if (status === 'Single') {
-      return Math.max(0, this.model.salary - this.standardDeduction.single - dependents);
+      return Math.max(0, this.postSalary - this.standardDeduction.single - dependents);
     }
     else if (status === 'Married') {
-      return Math.max(0, this.model.salary - this.standardDeduction.married - dependents);
+      return Math.max(0, this.postSalary - this.standardDeduction.married - dependents);
     }
     else if (status === 'Head') {
-      return Math.max(0, this.model.salary - this.standardDeduction.head - dependents);
+      return Math.max(0, this.postSalary - this.standardDeduction.head - dependents);
     }
   }
 
-  // federal income tax rate bracket for 2017
+  // single's federal income tax rate bracket for 2017
   private federalIncomeTaxRate(salary) {
     let taxes = 0;
     let tempSalary = salary;
 
-    if (tempSalary > 418400) {
-      taxes += ((tempSalary - 418400) * .396);
-      tempSalary = 418400;
+    if (tempSalary > singleFederalBracket.bracket6) {
+      taxes += ((tempSalary - singleFederalBracket.bracket6) * singleFederalBracket.taxRate7);
+      tempSalary = singleFederalBracket.bracket6;
     }
-    if (tempSalary > 416700 && tempSalary <= 418400) {
-      taxes += ((tempSalary - 416700) * .35);
-      tempSalary = 416700;
+    if (tempSalary > singleFederalBracket.bracket5 && tempSalary <= singleFederalBracket.bracket6) {
+      taxes += ((tempSalary - singleFederalBracket.bracket5) * singleFederalBracket.taxRate6);
+      tempSalary = singleFederalBracket.bracket5;
     }
-    if (tempSalary > 191650 && tempSalary <= 416700) {
-      taxes += ((tempSalary - 191650) * .33);
-      tempSalary = 191650;
+    if (tempSalary > singleFederalBracket.bracket4 && tempSalary <= singleFederalBracket.bracket5) {
+      taxes += ((tempSalary - singleFederalBracket.bracket4) * singleFederalBracket.taxRate5);
+      tempSalary = singleFederalBracket.bracket4;
     }
-    if (tempSalary > 91900 && tempSalary <= 191650) {
-      taxes += ((tempSalary - 91900) * .28);
-      tempSalary = 91900;
+    if (tempSalary > singleFederalBracket.bracket3 && tempSalary <= singleFederalBracket.bracket4) {
+      taxes += ((tempSalary - singleFederalBracket.bracket3) * singleFederalBracket.taxRate4);
+      tempSalary = singleFederalBracket.bracket3;
     }
-    if (tempSalary > 37950 && tempSalary <= 91900) {
-      taxes += ((tempSalary - 37950) * .25);
-      tempSalary = 37950;
+    if (tempSalary > singleFederalBracket.bracket2 && tempSalary <= singleFederalBracket.bracket3) {
+      taxes += ((tempSalary - singleFederalBracket.bracket2) * singleFederalBracket.taxRate3);
+      tempSalary = singleFederalBracket.bracket2;
     }
-    if (tempSalary > 9325 && tempSalary <= 37950) {
-      taxes += ((tempSalary - 9325) * .15);
-      tempSalary = 9325;
+    if (tempSalary > singleFederalBracket.bracket1 && tempSalary <= singleFederalBracket.bracket2) {
+      taxes += ((tempSalary - singleFederalBracket.bracket1) * singleFederalBracket.taxRate2);
+      tempSalary = singleFederalBracket.bracket1;
     }
-    if (tempSalary <= 9325) {
-      taxes += (tempSalary * .1);
+    if (tempSalary <= singleFederalBracket.bracket1) {
+      taxes += (tempSalary * singleFederalBracket.taxRate1);
     }
 
     // total federal tax to be deducted from income
-    this.totalTax = taxes;
+    this.totalFederalTax = taxes;
   }
 
-  // TODO: replace numbers with correct brackets for CA 2017
-  // state income tax rate bracket for 2017 in California
+  // single's state income tax rate bracket for 2017 in California
   private stateIncomeTaxRate(salary) {
     let taxes = 0;
     let tempSalary = salary;
 
-    if (tempSalary > 418400) {
-      taxes += ((tempSalary - 418400) * .396);
-      tempSalary = 418400;
+    if (tempSalary > singleCaliforniaBracket.bracket9) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket9) * singleCaliforniaBracket.taxRate10);
+      tempSalary = singleCaliforniaBracket.bracket9;
     }
-    if (tempSalary > 416700 && tempSalary <= 418400) {
-      taxes += ((tempSalary - 416700) * .35);
-      tempSalary = 416700;
+    if (tempSalary > singleCaliforniaBracket.bracket8 && tempSalary <= singleCaliforniaBracket.bracket9) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket8) * singleCaliforniaBracket.taxRate9);
+      tempSalary = singleCaliforniaBracket.bracket8;
     }
-    if (tempSalary > 191650 && tempSalary <= 416700) {
-      taxes += ((tempSalary - 191650) * .33);
-      tempSalary = 191650;
+    if (tempSalary > singleCaliforniaBracket.bracket7 && tempSalary <= singleCaliforniaBracket.bracket8) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket7) * singleCaliforniaBracket.taxRate8);
+      tempSalary = singleCaliforniaBracket.bracket7;
     }
-    if (tempSalary > 91900 && tempSalary <= 191650) {
-      taxes += ((tempSalary - 91900) * .28);
-      tempSalary = 91900;
+    if (tempSalary > singleCaliforniaBracket.bracket6 && tempSalary <= singleCaliforniaBracket.bracket7) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket6) * singleCaliforniaBracket.taxRate7);
+      tempSalary = singleCaliforniaBracket.bracket6;
     }
-    if (tempSalary > 37950 && tempSalary <= 91900) {
-      taxes += ((tempSalary - 37950) * .25);
-      tempSalary = 37950;
+    if (tempSalary > singleCaliforniaBracket.bracket5 && tempSalary <= singleCaliforniaBracket.bracket6) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket5) * singleCaliforniaBracket.taxRate6);
+      tempSalary = singleCaliforniaBracket.bracket5;
     }
-    if (tempSalary > 9325 && tempSalary <= 37950) {
-      taxes += ((tempSalary - 9325) * .15);
-      tempSalary = 9325;
+    if (tempSalary > singleCaliforniaBracket.bracket4 && tempSalary <= singleCaliforniaBracket.bracket5) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket4) * singleCaliforniaBracket.taxRate5);
+      tempSalary = singleCaliforniaBracket.bracket4;
     }
-    if (tempSalary <= 9325) {
-      taxes += (tempSalary * .1);
+    if (tempSalary > singleCaliforniaBracket.bracket3 && tempSalary <= singleCaliforniaBracket.bracket4) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket3) * singleCaliforniaBracket.taxRate4);
+      tempSalary = singleCaliforniaBracket.bracket3;
+    }
+    if (tempSalary > singleCaliforniaBracket.bracket2 && tempSalary <= singleCaliforniaBracket.bracket3) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket2) * singleCaliforniaBracket.taxRate3);
+      tempSalary = singleCaliforniaBracket.bracket2;
+    }
+    if (tempSalary > singleCaliforniaBracket.bracket1 && tempSalary <= singleCaliforniaBracket.bracket2) {
+      taxes += ((tempSalary - singleCaliforniaBracket.bracket1) * singleCaliforniaBracket.taxRate2);
+      tempSalary = singleCaliforniaBracket.bracket1;
+    }
+    if (tempSalary <= singleCaliforniaBracket.bracket1) {
+      taxes += (tempSalary * singleCaliforniaBracket.taxRate1);
     }
 
     // total state tax to be deducted from income
-    this.totalTax = taxes;
+    this.totalStateTax = taxes;
   }
 
   // calculate cash amount of fica from income
@@ -145,7 +168,7 @@ export class AppComponent {
 
   // deduct tax and fica from income according to the correct frequency
   private calculatePay(tax, fica, frequency) {
-    return Math.round((this.model.salary/frequency - tax/frequency - fica/frequency) * 100)/100;
+    return Math.round((this.postSalary/frequency - tax/frequency - fica/frequency) * 100)/100;
 
   }
 
