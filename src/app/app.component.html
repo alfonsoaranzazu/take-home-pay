@@ -1,15 +1,15 @@
 <div class="container">
   <div>
     <h1>Calculator</h1>
-    <form #calculatorForm="ngForm">
+    <form [formGroup]="userForm">
       <div class="form-group">
-        <label for="salary">Salary</label>
-        <input type="text" class="form-control" id="name" [(ngModel)]="model.salary" name="salary" #name="ngModel" required>
+        <label>Salary</label>
+        <input type="text" class="form-control" formControlName="salary" required>
       </div>
 
       <div class="form-group">
-        <label for="status">Status</label>
-        <select class="form-control" id="status" name="status" [(ngModel)]="model.status" required>
+        <label>Status</label>
+        <select class="form-control" formControlName="status" required>
           <option>Single</option>
           <option>Married</option>
           <option>Head of Household</option>
@@ -17,8 +17,8 @@
       </div>
 
       <div class="form-group">
-        <label for="dependents">Dependents</label>
-        <select class="form-control" id="dependents" name="dependents" [(ngModel)]="model.dependents" required>
+        <label>Dependents</label>
+        <select class="form-control" formControlName="dependents" required>
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -30,13 +30,13 @@
       </div>
 
       <div class="form-group">
-        <label for="deduction">Monthly Deduction</label>
-        <input type="text" class="form-control" id="deduction" name="deduction" [(ngModel)]="model.deduction" #name="ngModel" required>
+        <label>Monthly Deduction</label>
+        <input type="text" class="form-control" formControlName="deduction" required>
       </div>
 
       <div class="form-group">
-        <label for="state">State</label>
-        <select class="form-control" id="state" name="state" [(ngModel)]="model.state" required>
+        <label>State</label>
+        <select class="form-control" formControlName="state" required>
           <option>None</option>
           <option>CA</option>
         </select>
@@ -45,7 +45,6 @@
     </form>
   </div>
 
-  <!-- <div [hidden]="!submitted"> -->
   <div>
     <h2>Results</h2>
     <table class="table">

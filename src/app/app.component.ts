@@ -1,5 +1,6 @@
-import { Component, Input, DoCheck } from '@angular/core';
-import {filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates} from '../config';
+import {Component, Inject} from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates } from '../config';
 
 @Component({
   selector: 'app-root',
@@ -7,13 +8,12 @@ import {filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates} f
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @Input() model = {
-    salary: 0,
-    status: 'Single',
-    dependents: 0,
-    deduction: 0,
-    state: 'None'
-  };
+  userForm: FormGroup;
+  salary: FormControl;
+  status: FormControl;
+  dependents: FormControl;
+  deduction: FormControl;
+  state: FormControl;
 
   public takeHomePay = {
       yearly: 0,
@@ -42,27 +42,53 @@ export class AppComponent {
   public fica = taxRates.socialSecurity + taxRates.medicare;
   public postSalary;
 
+  ngOnInit() {
+    this.createFormControls();
+    this.createForm();
+  }
+
+  createFormControls() {
+    this.salary = new FormControl(0, Validators.required);
+    this.status = new FormControl('Single', Validators.required);
+    this.dependents = new FormControl(0, Validators.required);
+    this.deduction = new FormControl(0, Validators.required);
+    this.state = new FormControl('CA', Validators.required);
+  }
+
+  createForm() {
+    this.userForm = this.formBuilder.group({
+      salary: this.salary,
+      status: this.status,
+      dependents: this.dependents,
+      deduction: this.deduction,
+      state: this.state
+    });
+  }
+
+  constructor(@Inject(FormBuilder) private formBuilder: FormBuilder) {
+  }
+
   // gets called every time user inputs new values
   ngDoCheck() {
     this.totalFederalTax = 0;
     this.totalStateTax = 0;
     this.preTaxDeduction();
-    let statusDeductions = this.calcDeductions(this.model.status);
+    let statusDeductions = this.calcDeductions(this.status.value);
     this.federalIncomeTaxRate(statusDeductions);
-    if (this.model.state === 'CA') {
+    if (this.state.value === 'CA') {
       this.stateIncomeTaxRate(statusDeductions);
     }
     this.payFrequency(this.totalFederalTax + this.totalStateTax, this.ficaDeduction(this.postSalary));
   }
 
   preTaxDeduction() {
-    this.postSalary = this.model.salary - (this.model.deduction*12);
+    this.postSalary = this.salary.value - (this.deduction.value * 12);
   }
 
   // deduct correct filing status from income
   private calcDeductions(status) {
     // calculate total amount of dependents for deduction
-    const dependents = this.model.dependents * this.standardDeduction.dependent;
+    const dependents = this.dependents.value * this.standardDeduction.dependent;
 
     if (status === 'Single') {
       return Math.max(0, this.postSalary - this.standardDeduction.single - dependents);
