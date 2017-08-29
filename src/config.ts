@@ -8,7 +8,13 @@ export const filingStatus = Object.freeze({
 export const taxRates = Object.freeze({
   socialSecurity: .062,
   medicare: .0145,
-})
+});
+
+export const statusNames = Object.freeze([
+  'Single',
+  'Married',
+  'Head of Household'
+]);
 
 export const singleFederalBracket = Object.freeze({
   bracket1: 9325,

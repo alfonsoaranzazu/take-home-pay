@@ -1,6 +1,6 @@
-import {Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates } from '../config';
+import { filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates, statusNames } from '../config';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,10 @@ export class AppComponent {
   dependents: FormControl;
   deduction: FormControl;
   state: FormControl;
+  dependentNumbers: any;
+  statesList: any;
+
+  public statusNames = statusNames;
 
   public takeHomePay = {
       yearly: 0,
@@ -66,6 +70,8 @@ export class AppComponent {
   }
 
   constructor(@Inject(FormBuilder) private formBuilder: FormBuilder) {
+    this.dependentNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    this.statesList = ['None', 'CA'];
   }
 
   // gets called every time user inputs new values

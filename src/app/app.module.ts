@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { MdCheckboxModule, MdSelectModule, MdInputModule, MdIconModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { PayComponent } from '../components/pay/pay.component';
 
@@ -11,7 +13,12 @@ import { PayComponent } from '../components/pay/pay.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
+    MdCheckboxModule,
+    MdSelectModule,
+    MdInputModule,
+    MdIconModule,
     ReactiveFormsModule
   ],
   providers: [],
