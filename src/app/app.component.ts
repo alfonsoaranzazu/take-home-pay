@@ -19,12 +19,12 @@ export class AppComponent {
 
   public statusNames = statusNames;
 
-  public takeHomePay = {
-      yearly: 0,
-      monthly: 0,
-      biweekly: 0,
-      weekly: 0
-  };
+  public takeHomePay = [
+    {text: 'Yearly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
+    {text: 'Monthly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
+    {text: 'Bi-Weekly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
+    {text: 'Weekly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
+  ];
 
   public standardDeduction = {
     single: filingStatus.single,
@@ -206,9 +206,9 @@ export class AppComponent {
 
   // bind take home pay to each frequency
   private payFrequency(tax, fica) {
-    this.takeHomePay.yearly = this.calculatePay(tax, fica, this.frequencies.yearly);
-    this.takeHomePay.monthly = this.calculatePay(tax, fica, this.frequencies.monthly);
-    this.takeHomePay.biweekly = this.calculatePay(tax, fica, this.frequencies.biweekly);
-    this.takeHomePay.weekly = this.calculatePay(tax, fica, this.frequencies.weekly);
+    this.takeHomePay[0].money = this.calculatePay(tax, fica, this.frequencies.yearly);
+    this.takeHomePay[1].money = this.calculatePay(tax, fica, this.frequencies.monthly);
+    this.takeHomePay[2].money = this.calculatePay(tax, fica, this.frequencies.biweekly);
+    this.takeHomePay[3].money = this.calculatePay(tax, fica, this.frequencies.weekly);
   }
 }

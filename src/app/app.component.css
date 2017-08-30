@@ -1,7 +1,22 @@
-.user-form {
-  width: 100%;
+.container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column; /* works with row or column */
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+md-card {
+  width: 70%;
 }
 
 .form-group, .full-width {
   width: 100%;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
 }
