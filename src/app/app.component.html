@@ -59,7 +59,10 @@
             [colspan]="pay.cols"
             [rowspan]="pay.rows"
             [style.background]="pay.color">
-            {{ pay.money }}
+            <div>
+              <md-icon color="primary">attach_money</md-icon>
+              {{ pay.money }}
+            </div>
           </md-grid-tile>
         </md-grid-list>
       </md-card-content>

@@ -20,3 +20,7 @@ md-card {
 .fill-remaining-space {
   flex: 1 1 auto;
 }
+
+md-input-container input {
+  color: #fff;
+}

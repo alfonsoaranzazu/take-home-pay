@@ -32,6 +32,38 @@ export const singleFederalBracket = Object.freeze({
   taxRate7: .396
 });
 
+export const marriedFederalBracket = Object.freeze({
+  bracket1: 18650,
+  bracket2: 75900,
+  bracket3: 153100,
+  bracket4: 233350,
+  bracket5: 416700,
+  bracket6: 470700,
+  taxRate1: .1,
+  taxRate2: .15,
+  taxRate3: .25,
+  taxRate4: .28,
+  taxRate5: .33,
+  taxRate6: .35,
+  taxRate7: .396
+});
+
+export const HoHFederalBracket = Object.freeze({
+  bracket1: 13350,
+  bracket2: 50800,
+  bracket3: 131200,
+  bracket4: 212500,
+  bracket5: 416700,
+  bracket6: 444500,
+  taxRate1: .1,
+  taxRate2: .15,
+  taxRate3: .25,
+  taxRate4: .28,
+  taxRate5: .33,
+  taxRate6: .35,
+  taxRate7: .396
+});
+
 export const singleCaliforniaBracket = Object.freeze({
   bracket1: 7850,
   bracket2: 18610,

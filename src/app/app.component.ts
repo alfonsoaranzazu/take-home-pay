@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { filingStatus, singleCaliforniaBracket, singleFederalBracket, taxRates, statusNames } from '../config';
+import { filingStatus, singleCaliforniaBracket, singleFederalBracket, marriedFederalBracket, HoHFederalBracket, taxRates, statusNames } from '../config';
 
 @Component({
   selector: 'app-root',
@@ -80,7 +80,15 @@ export class AppComponent {
     this.totalStateTax = 0;
     this.preTaxDeduction();
     let statusDeductions = this.calcDeductions(this.status.value);
-    this.federalIncomeTaxRate(statusDeductions);
+    if (this.status.value === 'Single') {
+      this.federalIncomeTaxRate(statusDeductions, singleFederalBracket);
+    }
+    else if (this.status.value === 'Married') {
+      this.federalIncomeTaxRate(statusDeductions, marriedFederalBracket);
+    }
+    else if (this.status.value === 'Head of Household') {
+      this.federalIncomeTaxRate(statusDeductions, HoHFederalBracket);
+    }
     if (this.state.value === 'CA') {
       this.stateIncomeTaxRate(statusDeductions);
     }
@@ -108,7 +116,7 @@ export class AppComponent {
   }
 
   // single's federal income tax rate bracket for 2017
-  private federalIncomeTaxRate(salary) {
+  private federalIncomeTaxRate(salary , bracket) {
     let taxes = 0;
     let tempSalary = salary;
 
