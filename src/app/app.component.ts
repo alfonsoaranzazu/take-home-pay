@@ -20,10 +20,10 @@ export class AppComponent {
   public statusNames = statusNames;
 
   public takeHomePay = [
-    {text: 'Yearly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
-    {text: 'Monthly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
-    {text: 'Bi-Weekly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
-    {text: 'Weekly', cols: 1, rows: 1, color: '#ADADAD', money: 0},
+    {text: 'Yearly', cols: 1, rows: 1, color: '#fff', money: 0},
+    {text: 'Monthly', cols: 1, rows: 1, color: '#fff', money: 0},
+    {text: 'Bi-Weekly', cols: 1, rows: 1, color: '#fff', money: 0},
+    {text: 'Weekly', cols: 1, rows: 1, color: '#fff', money: 0},
   ];
 
   public standardDeduction = {

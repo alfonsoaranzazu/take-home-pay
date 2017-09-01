@@ -22,5 +22,5 @@ md-card {
 }
 
 md-input-container input {
-  color: #fff;
+  color: rgba(0,0,0,.87);
 }
