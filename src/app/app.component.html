@@ -1,63 +1,74 @@
-<div class="container">
-  <div>
-    <h1>Calculator</h1>
-    <form (ngSubmit)="onSubmit()" #calculatorForm="ngForm">
-      <div class="form-group">
-        <label for="salary">Salary</label>
-        <input type="text" class="form-control" id="name" [(ngModel)]="model.salary" name="salary" #name="ngModel" required>
-      </div>
- 
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select class="form-control" id="status" name="status" [(ngModel)]="model.status" required>
-          <option>Single</option>
-          <option>Head of Household</option>
-        </select>
-      </div>
+<div>
+    <md-toolbar color="primary">
+      <span>Take Home Pay</span>
+      <!-- This fills the remaining space of the current row -->
+      <span class="fill-remaining-space"></span>
+      <span><md-icon>mood</md-icon></span>
+    </md-toolbar>
 
-      <div class="form-group">
-        <label for="dependents">Dependents</label>
-        <select class="form-control" id="dependents" name="dependents" [(ngModel)]="model.dependents" required>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-      </div>
+  <main class="container">
+    <md-card class="calculate-card">
+      <h2>Calculator</h2>
+      <md-card-content>
+        <form [formGroup]="userForm">
+          <md-input-container class="full-width">
+            <md-icon mdPrefix color="primary">attach_money</md-icon>
+            <input placeholder="Salary" mdInput formControlName="salary" required>
+            <md-icon mdSuffix color="primary">home</md-icon>
+          </md-input-container>
 
-      <div class="form-group">
-        <label for="deduction">Monthly Deduction</label>
-        <input type="text" class="form-control" id="deduction" name="deduction" [(ngModel)]="model.deduction" #name="ngModel" required>
-      </div>
- 
-      <button type="submit" class="btn btn-success" [disabled]="!calculatorForm.form.valid">Submit</button>
-    </form>
-  </div>
- 
-  <!-- <div [hidden]="!submitted"> -->
-  <div>
-    <h2>Results</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Yearly</th>
-          <th>Monthly</th>
-          <th>Two Weekly</th>
-          <th>Weekly</th>
-      </tr>
-      </thead>
-      <tbody>
-         <tr>
-           <td><strong>Take Home</strong></td>
-           <td>$ {{takeHomePay.yearly}}</td>
-           <td>$ {{takeHomePay.monthly}}</td>
-           <td>$ {{takeHomePay.biweekly}}</td>
-           <td>$ {{takeHomePay.weekly}}</td>
-         </tr> 
-      </tbody>  
-    </table>
-  </div>
+          <!--<md-icon mdPrefix>person</md-icon>-->
+          <md-select class="full-width" placeholder="Status" formControlName="status" required>
+            <md-option *ngFor="let status of statusNames" [value]="status">{{ status }}</md-option>
+          </md-select>
+
+          <md-select class="full-width" placeholder="Dependents" formControlName="dependents" required>
+            <md-option *ngFor="let number of dependentNumbers" [value]="number">{{ number }}</md-option>
+            <!--<md-icon mdSuffix>group_add</md-icon>-->
+          </md-select>
+
+          <md-input-container class="full-width">
+            <md-icon mdPrefix color="primary">attach_money</md-icon>
+            <input placeholder="Monthly Deduction" mdInput formControlName="deduction" required>
+          </md-input-container>
+          <!--<md-icon mdSuffix>description</md-icon>-->
+
+          <md-select class="full-width" placeholder="State" formControlName="state" required>
+            <md-option *ngFor="let state of statesList" [value]="state">{{ state }}</md-option>
+          </md-select>
+          <!--<md-icon>location_city</md-icon>-->
+        </form>
+      </md-card-content>
+    </md-card>
+
+    <md-card class="result-card">
+      <md-card-header>
+        <h2>Results</h2>
+      </md-card-header>
+      <md-card-content>
+        <md-grid-list cols="5" rowHeight="3:1">
+          <md-grid-tile></md-grid-tile>
+          <md-grid-tile
+            *ngFor="let pay of takeHomePay"
+            [colspan]="pay.cols"
+            [rowspan]="pay.rows">
+            {{ pay.text }}</md-grid-tile>
+          <md-grid-tile>Take Home</md-grid-tile>
+          <md-grid-tile
+            *ngFor="let pay of takeHomePay"
+            [colspan]="pay.cols"
+            [rowspan]="pay.rows"
+            [style.background]="pay.color">
+            <div>
+              <md-icon color="primary">attach_money</md-icon>
+              {{ pay.money }}
+            </div>
+          </md-grid-tile>
+        </md-grid-list>
+      </md-card-content>
+    </md-card>
+
+
+
+  </main>
 </div>
