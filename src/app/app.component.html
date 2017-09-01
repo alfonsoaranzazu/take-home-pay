@@ -11,32 +11,37 @@
       <h2>Calculator</h2>
       <md-card-content>
         <form [formGroup]="userForm">
-          <md-input-container class="full-width">
-            <md-icon mdPrefix color="primary">attach_money</md-icon>
-            <input placeholder="Salary" mdInput formControlName="salary" required>
-            <md-icon mdSuffix color="primary">home</md-icon>
-          </md-input-container>
-
-          <!--<md-icon mdPrefix>person</md-icon>-->
-          <md-select class="full-width" placeholder="Status" formControlName="status" required>
-            <md-option *ngFor="let status of statusNames" [value]="status">{{ status }}</md-option>
-          </md-select>
-
-          <md-select class="full-width" placeholder="Dependents" formControlName="dependents" required>
-            <md-option *ngFor="let number of dependentNumbers" [value]="number">{{ number }}</md-option>
-            <!--<md-icon mdSuffix>group_add</md-icon>-->
-          </md-select>
-
-          <md-input-container class="full-width">
-            <md-icon mdPrefix color="primary">attach_money</md-icon>
-            <input placeholder="Monthly Deduction" mdInput formControlName="deduction" required>
-          </md-input-container>
-          <!--<md-icon mdSuffix>description</md-icon>-->
-
-          <md-select class="full-width" placeholder="State" formControlName="state" required>
-            <md-option *ngFor="let state of statesList" [value]="state">{{ state }}</md-option>
-          </md-select>
-          <!--<md-icon>location_city</md-icon>-->
+          <md-list>
+            <md-list-item>
+              <md-input-container class="full-width">
+                <md-icon mdPrefix color="primary">attach_money</md-icon>
+                <input placeholder="Salary" mdInput formControlName="salary" required>
+                <md-icon mdSuffix color="primary">home</md-icon>
+              </md-input-container>
+            </md-list-item>
+            <md-list-item>
+              <md-select class="full-width" placeholder="Status" formControlName="status" required>
+                <md-option *ngFor="let status of statusNames" [value]="status">{{ status }}</md-option>
+              </md-select>
+            </md-list-item>
+            <md-list-item>
+              <md-select class="full-width" placeholder="Dependents" formControlName="dependents" required>
+                <md-option *ngFor="let number of dependentNumbers" [value]="number">{{ number }}</md-option>
+                <!--<md-icon mdSuffix>group_add</md-icon>-->
+              </md-select>
+            </md-list-item>
+            <md-list-item>
+              <md-input-container class="full-width">
+                <md-icon mdPrefix color="primary">attach_money</md-icon>
+                <input placeholder="Monthly Deduction" mdInput formControlName="deduction" required>
+              </md-input-container>
+            </md-list-item>
+            <md-list-item>
+              <md-select class="full-width" placeholder="State" formControlName="state" required>
+                <md-option *ngFor="let state of statesList" [value]="state">{{ state }}</md-option>
+              </md-select>
+            </md-list-item>
+          </md-list>
         </form>
       </md-card-content>
     </md-card>

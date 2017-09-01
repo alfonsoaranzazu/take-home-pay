@@ -24,3 +24,7 @@ md-card {
 md-input-container input {
   color: rgba(0,0,0,.87);
 }
+
+md-list-item {
+  margin: 2em;
+}
