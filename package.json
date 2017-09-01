@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve | electron .",
+    "start": "ng serve",
+    "start:elektron": "ng serve | elektron .",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
