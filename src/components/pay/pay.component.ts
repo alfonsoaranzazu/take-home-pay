@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./pay.component.css']
 })
 export class PayComponent implements OnInit {
-  @Input() pay: number;
+  @Input() pay: any;
 
   constructor() { }
 

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { filingStatus, singleCaliforniaBracket, singleFederalBracket, marriedFederalBracket, HoHFederalBracket, taxRates, statusNames } from '../config';
+import { filingStatus, singleCaliforniaBracket, singleFederalBracket } from '../config';
+import { marriedFederalBracket, HoHFederalBracket, taxRates, statusNames } from '../config';
 
 @Component({
   selector: 'app-root',
