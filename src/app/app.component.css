@@ -1,16 +1,41 @@
-.container {
+.main-container {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column; /* works with row or column */
   flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.container {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-align-content: flex-end;
+  align-content: flex-end;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row; /* works with row or column */
+  flex-direction: row;
   -webkit-align-items: center;
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
+  flex-grow: 2;
 }
 
 md-card {
-  width: 70%;
+  margin: 1em;
+  min-width: 250px;
+}
+
+md-card.result-card {
+  width: 15%;
+}
+
+.two-columns {
+  position: static;
 }
 
 .form-group, .full-width {
@@ -21,10 +46,18 @@ md-card {
   flex: 1 1 auto;
 }
 
-md-input-container input {
-  color: rgba(0,0,0,.87);
-}
-
 md-list-item {
   margin: 2em;
 }
+
+span a {
+  text-decoration: none;
+  color: #fff;
+}
+
+@media screen and (min-height: 670px) {
+  .sticky-footer {
+    margin-top: 279px;
+  }
+}
+
