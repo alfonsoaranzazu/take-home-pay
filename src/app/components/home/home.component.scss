@@ -3,8 +3,8 @@
   display: flex;
   -webkit-flex-direction: column; /* works with row or column */
   flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 .container {
@@ -12,8 +12,8 @@
   flex-wrap: wrap;
   -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
-  -webkit-align-content: flex-end;
-  align-content: flex-end;
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: row; /* works with row or column */
@@ -22,7 +22,8 @@
   align-items: center;
   -webkit-justify-content: center;
   justify-content: center;
-  flex-grow: 2;
+  flex-grow: 1;
+  overflow: auto;
 }
 
 md-card {
@@ -30,12 +31,32 @@ md-card {
   min-width: 250px;
 }
 
+.result-content {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column; /* works with row or column */
+  flex-direction: column;
+  height: 300px;
+}
+
 md-card.result-card {
   width: 15%;
 }
 
-.two-columns {
-  position: static;
+div.row-container {
+  -webkit-flex-flow: row;
+  flex-flow: row;
+  -webkit-align-content: space-between;
+  align-content: space-between;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row; /* works with row or column */
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .form-group, .full-width {
@@ -43,11 +64,11 @@ md-card.result-card {
 }
 
 .fill-remaining-space {
-  flex: 1 1 auto;
+  flex: 2 1 auto;
 }
 
 md-list-item {
-  margin: 2em;
+  margin-top: 2em;
 }
 
 span a {
@@ -55,9 +76,4 @@ span a {
   color: #fff;
 }
 
-@media screen and (min-height: 670px) {
-  .sticky-footer {
-    margin-top: 279px;
-  }
-}
 

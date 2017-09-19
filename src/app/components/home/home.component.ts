@@ -4,8 +4,8 @@ import { filingStatus, singleCaliforniaBracket, singleFederalBracket, marriedFed
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.scss']
 })
 
 export class HomeComponent implements OnInit {
