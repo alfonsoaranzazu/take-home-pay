@@ -1,14 +1,14 @@
-import { TakeHomePayPage } from './app.po';
+import { AngularElectronPage } from './app.po';
+import { browser, element, by } from 'protractor';
 
-describe('take-home-pay App', () => {
-  let page: TakeHomePayPage;
+describe('angular-electron App', () => {
+  let page: AngularElectronPage;
 
   beforeEach(() => {
-    page = new TakeHomePayPage();
+    page = new AngularElectronPage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+  it('should display message saying App works !', () => {
+    expect(element(by.css('app-home h1')).getText()).toMatch('App works !');
   });
 });
